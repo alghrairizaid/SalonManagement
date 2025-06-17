@@ -1,0 +1,105 @@
+extends ../layouts/main
+
+block content
+  h1.mb-4 Appointment Details
+  
+  if appointment
+    .card.bg-dark
+      .card-header
+        .d-flex.justify-content-between.align-items-center
+          h3.mb-0 Appointment ##{appointment.id}
+          span.badge.fs-6(class=`status-${appointment.status}`) #{appointment.status}
+      .card-body
+        .row
+          .col-md-6
+            h4 Appointment Information
+            ul.list-group.list-group-flush.bg-dark.mb-4
+              li.list-group-item.bg-dark
+                strong Date & Time: 
+                = new Date(appointment.appointment_date).toLocaleString()
+              li.list-group-item.bg-dark
+                strong Service: 
+                = appointment.service_name
+              li.list-group-item.bg-dark
+                strong Price: 
+                | $#{appointment.service_price.toFixed(2)}
+              li.list-group-item.bg-dark
+                strong Duration: 
+                = appointment.service_duration + ' minutes'
+            
+            if userRole === 'client' || userRole === 'admin'
+              h4 Manicurist Information
+              ul.list-group.list-group-flush.bg-dark.mb-4
+                li.list-group-item.bg-dark
+                  strong Name: 
+                  = appointment.manicurist_name
+            
+            if userRole === 'manicurist' || userRole === 'admin'
+              h4 Client Information
+              ul.list-group.list-group-flush.bg-dark.mb-4
+                li.list-group-item.bg-dark
+                  strong Name: 
+                  = appointment.client_name
+                li.list-group-item.bg-dark
+                  strong Email: 
+                  = appointment.client_email
+                li.list-group-item.bg-dark
+                  strong Phone: 
+                  = appointment.client_phone || 'Not provided'
+          
+          .col-md-6
+            h4 Appointment Notes
+            .card.bg-dark.mb-4
+              .card-body
+                if appointment.notes
+                  p= appointment.notes
+                else
+                  p.text-muted No notes provided for this appointment.
+            
+            // Status Update Form - For Manicurist & Admin
+            if (userRole === 'manicurist' || userRole === 'admin') && appointment.status !== 'cancelled'
+              h4 Update Status
+              form(action=userRole === 'admin' ? `/appointments/${appointment.id}/update` : `/manicurist/appointments/${appointment.id}/update`, method="POST")
+                .mb-3
+                  label.form-label(for="status") Appointment Status
+                  select#status.form-control(name="status", required)
+                    option(value="pending", selected=appointment.status === 'pending') Pending
+                    option(value="confirmed", selected=appointment.status === 'confirmed') Confirmed
+                    option(value="completed", selected=appointment.status === 'completed') Completed
+                    option(value="cancelled", selected=appointment.status === 'cancelled') Cancelled
+                
+                if userRole === 'admin'
+                  .mb-3
+                    label.form-label(for="manicurist_id") Assigned Manicurist
+                    select#manicurist_id.form-control(name="manicurist_id", required)
+                      each manicurist in manicurists || []
+                        option(value=manicurist.id, selected=appointment.manicurist_id === manicurist.id)= manicurist.name
+                
+                .mb-3
+                  label.form-label(for="notes") Notes
+                  textarea#notes.form-control(name="notes", rows="3")= appointment.notes || ''
+                
+                button.btn.btn-primary(type="submit") Update Appointment
+            
+            // Cancel button - For Client
+            if userRole === 'client' && appointment.status !== 'cancelled' && appointment.status !== 'completed' && new Date(appointment.appointment_date) > new Date()
+              .mt-4
+                a.btn.btn-danger.cancel-appointment-btn(href=`/client/appointments/${appointment.id}/cancel`)
+                  i.fas.fa-times.me-2
+                  | Cancel Appointment
+            
+            // Delete button - For Admin
+            if userRole === 'admin'
+              .mt-4
+                a.btn.btn-danger.delete-btn(href=`/appointments/${appointment.id}/delete`)
+                  i.fas.fa-trash.me-2
+                  | Delete Appointment
+        
+        .mt-4
+          a.btn.btn-secondary(href=userRole === 'admin' ? '/appointments' : userRole === 'manicurist' ? '/manicurist/appointments' : '/client/history')
+            i.fas.fa-arrow-left.me-2
+            | Back to Appointments
+  else
+    .alert.alert-danger
+      p Appointment not found. The appointment may have been deleted or you don't have permission to view it.
+    a.btn.btn-primary(href="/") Return to Dashboard

@@ -1,0 +1,133 @@
+doctype html
+html(lang="en" data-bs-theme="dark")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title #{title} | Manicure Salon
+    link(rel="stylesheet", href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css")
+    link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css")
+    link(rel="stylesheet", href="/css/style.css")
+  body
+    header
+      nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
+        .container
+          a.navbar-brand(href="/") 
+            i.fas.fa-spa.me-2
+            | Manicure Salon
+          
+          button.navbar-toggler(type="button", data-bs-toggle="collapse", data-bs-target="#navbarNav")
+            span.navbar-toggler-icon
+          
+          .collapse.navbar-collapse#navbarNav
+            ul.navbar-nav.ms-auto
+              li.nav-item
+                a.nav-link(href="/services") Services
+              
+              if user
+                if user.role === 'admin'
+                  li.nav-item.dropdown
+                    a.nav-link.dropdown-toggle(href="#", data-bs-toggle="dropdown") Admin
+                    ul.dropdown-menu
+                      li
+                        a.dropdown-item(href="/admin/dashboard") Dashboard
+                      li
+                        a.dropdown-item(href="/admin/services") Manage Services
+                      li
+                        a.dropdown-item(href="/admin/manicurists") Manage Manicurists
+                      li
+                        a.dropdown-item(href="/appointments") Manage Appointments
+                
+                if user.role === 'manicurist'
+                  li.nav-item.dropdown
+                    a.nav-link.dropdown-toggle(href="#", data-bs-toggle="dropdown") Manicurist
+                    ul.dropdown-menu
+                      li
+                        a.dropdown-item(href="/manicurist/dashboard") Dashboard
+                      li
+                        a.dropdown-item(href="/manicurist/appointments") My Appointments
+                      li
+                        a.dropdown-item(href="/manicurist/profile") My Profile
+                
+                if user.role === 'client'
+                  li.nav-item
+                    a.nav-link(href="/appointments/book") Book Appointment
+                  li.nav-item.dropdown
+                    a.nav-link.dropdown-toggle(href="#", data-bs-toggle="dropdown") My Account
+                    ul.dropdown-menu
+                      li
+                        a.dropdown-item(href="/client/dashboard") Dashboard
+                      li
+                        a.dropdown-item(href="/client/history") Appointment History
+                      li
+                        a.dropdown-item(href="/client/profile") My Profile
+                
+                li.nav-item
+                  a.nav-link(href="/logout") Logout
+              else
+                li.nav-item
+                  a.nav-link(href="/login") Login
+                li.nav-item
+                  a.nav-link(href="/register") Register
+    
+    .content
+      .container.py-4
+        // Display flash messages
+        if success_msg && success_msg.length > 0
+          .alert.alert-success.alert-dismissible.fade.show
+            button.btn-close(type="button", data-bs-dismiss="alert")
+            = success_msg
+        
+        if error_msg && error_msg.length > 0
+          .alert.alert-danger.alert-dismissible.fade.show
+            button.btn-close(type="button", data-bs-dismiss="alert")
+            = error_msg
+        
+        if error && error.length > 0
+          .alert.alert-danger.alert-dismissible.fade.show
+            button.btn-close(type="button", data-bs-dismiss="alert")
+            = error
+        
+        // Display validation errors
+        if errors && errors.length > 0
+          .alert.alert-danger.alert-dismissible.fade.show
+            button.btn-close(type="button", data-bs-dismiss="alert")
+            each error in errors
+              p.mb-0= error.msg
+        
+        // Main content
+        block content
+    
+    footer.footer.bg-dark.text-light.py-3
+      .container
+        .row
+          .col-md-6
+            h5.mb-3 Manicure Salon
+            p We offer professional manicure services with the highest quality materials and techniques.
+          .col-md-3
+            h5.mb-3 Quick Links
+            ul.list-unstyled
+              li
+                a.text-light(href="/") Home
+              li
+                a.text-light(href="/services") Services
+              li
+                a.text-light(href="/login") Login
+          .col-md-3
+            h5.mb-3 Contact Us
+            ul.list-unstyled
+              li
+                i.fas.fa-map-marker-alt.me-2
+                | Iraq Baghdad Al-Rusafa
+              li
+                i.fas.fa-phone.me-2
+                | 07736272289
+              li
+                i.fas.fa-envelope.me-2
+                | zaidAlghrairi@mail.ru
+        hr
+        .text-center
+          p &copy; 2025 Manicure Salon. All rights reserved.
+    
+    script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js")
+    script(src="/js/main.js")

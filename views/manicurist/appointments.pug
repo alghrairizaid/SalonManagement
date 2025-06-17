@@ -1,0 +1,101 @@
+extends ../layouts/main
+
+block content
+  h1.mb-4 My Appointments
+  
+  .card.bg-dark
+    .card-header
+      ul.nav.nav-tabs.card-header-tabs#appointmentTabs(role="tablist")
+        li.nav-item(role="presentation")
+          button.nav-link.active#upcoming-tab(data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab") Upcoming
+        li.nav-item(role="presentation")
+          button.nav-link#past-tab(data-bs-toggle="tab" data-bs-target="#past" type="button" role="tab") Past
+        li.nav-item(role="presentation")
+          button.nav-link#all-tab(data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab") All Appointments
+    
+    .card-body
+      .tab-content
+        .tab-pane.fade.show.active#upcoming(role="tabpanel")
+          if appointments && appointments.length > 0
+            - const upcomingAppointments = appointments.filter(a => new Date(a.appointment_date) > new Date())
+            if upcomingAppointments.length > 0
+              .table-responsive
+                table.table.table-dark
+                  thead
+                    tr
+                      th Date & Time
+                      th Client
+                      th Service
+                      th Duration
+                      th Status
+                      th Actions
+                  tbody
+                    each appointment in upcomingAppointments
+                      tr
+                        td= new Date(appointment.appointment_date).toLocaleString()
+                        td
+                          div= appointment.client_name
+                          small.text-muted= appointment.client_phone
+                        td= appointment.service_name
+                        td= appointment.service_duration + ' min'
+                        td
+                          span.badge(class=`status-${appointment.status}`)= appointment.status
+                        td
+                          a.btn.btn-info.btn-sm(href=`/manicurist/appointments/${appointment.id}`)
+                            i.fas.fa-eye
+            else
+              p.text-center.py-3 No upcoming appointments
+        
+        .tab-pane.fade#past(role="tabpanel")
+          if appointments && appointments.length > 0
+            - const pastAppointments = appointments.filter(a => new Date(a.appointment_date) <= new Date())
+            if pastAppointments.length > 0
+              .table-responsive
+                table.table.table-dark
+                  thead
+                    tr
+                      th Date & Time
+                      th Client
+                      th Service
+                      th Duration
+                      th Status
+                  tbody
+                    each appointment in pastAppointments
+                      tr
+                        td= new Date(appointment.appointment_date).toLocaleString()
+                        td
+                          div= appointment.client_name
+                          small.text-muted= appointment.client_phone
+                        td= appointment.service_name
+                        td= appointment.service_duration + ' min'
+                        td
+                          span.badge(class=`status-${appointment.status}`)= appointment.status
+            else
+              p.text-center.py-3 No past appointments
+        
+        .tab-pane.fade#all(role="tabpanel")
+          if appointments && appointments.length > 0
+            .table-responsive
+              table.table.table-dark
+                thead
+                  tr
+                    th Date & Time
+                    th Client
+                    th Service
+                    th Status
+                    th Actions
+                tbody
+                  each appointment in appointments
+                    tr
+                      td= new Date(appointment.appointment_date).toLocaleString()
+                      td
+                        div= appointment.client_name
+                        small.text-muted= appointment.client_phone
+                      td= appointment.service_name
+                      td
+                        span.badge(class=`status-${appointment.status}`)= appointment.status
+                      td
+                        a.btn.btn-info.btn-sm(href=`/manicurist/appointments/${appointment.id}`)
+                          i.fas.fa-eye
+          else
+            p.text-center.py-3 No appointments found

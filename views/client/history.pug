@@ -1,0 +1,106 @@
+extends ../layouts/main
+
+block content
+  h1.mb-4 My Appointment History
+  
+  .card.bg-dark
+    .card-header
+      ul.nav.nav-tabs.card-header-tabs#appointmentTabs(role="tablist")
+        li.nav-item(role="presentation")
+          button.nav-link.active#upcoming-tab(data-bs-toggle="tab" data-bs-target="#upcoming" type="button" role="tab") Upcoming
+        li.nav-item(role="presentation")
+          button.nav-link#past-tab(data-bs-toggle="tab" data-bs-target="#past" type="button" role="tab") Past
+        li.nav-item(role="presentation")
+          button.nav-link#all-tab(data-bs-toggle="tab" data-bs-target="#all" type="button" role="tab") All Appointments
+    
+    .card-body
+      .tab-content
+        .tab-pane.fade.show.active#upcoming(role="tabpanel")
+          if appointments && appointments.length > 0
+            - const upcomingAppointments = appointments.filter(a => new Date(a.appointment_date) > new Date())
+            if upcomingAppointments.length > 0
+              ul.list-group.list-group-flush.bg-dark
+                each appointment in upcomingAppointments
+                  li.list-group-item.bg-dark.mb-3.appointment-item
+                    .row
+                      .col-md-8
+                        h5= appointment.service_name
+                        p.mb-1
+                          i.fas.fa-calendar-alt.me-2
+                          = new Date(appointment.appointment_date).toLocaleString()
+                        p.mb-1
+                          i.fas.fa-user.me-2
+                          | Manicurist: #{appointment.manicurist_name}
+                        p.mb-1
+                          i.fas.fa-tag.me-2
+                          | Price: $#{appointment.service_price.toFixed(2)}
+                        span.badge(class=`status-${appointment.status}`)= appointment.status
+                      .col-md-4.d-flex.flex-column.justify-content-center
+                        a.btn.btn-info.mb-2(href=`/client/appointments/${appointment.id}`)
+                          i.fas.fa-eye.me-2
+                          | View Details
+                        if appointment.status !== 'cancelled' && appointment.status !== 'completed'
+                          a.btn.btn-outline-danger.cancel-appointment-btn(href=`/client/appointments/${appointment.id}/cancel`)
+                            i.fas.fa-times.me-2
+                            | Cancel
+            else
+              .text-center.py-4
+                i.fas.fa-calendar-alt.fa-3x.mb-3.text-muted
+                p.lead You have no upcoming appointments
+                a.btn.btn-primary.mt-2(href="/appointments/book") Book an Appointment
+        
+        .tab-pane.fade#past(role="tabpanel")
+          if appointments && appointments.length > 0
+            - const pastAppointments = appointments.filter(a => new Date(a.appointment_date) <= new Date())
+            if pastAppointments.length > 0
+              ul.list-group.list-group-flush.bg-dark
+                each appointment in pastAppointments
+                  li.list-group-item.bg-dark.mb-3.appointment-item
+                    .row
+                      .col-md-9
+                        h5= appointment.service_name
+                        p.mb-1
+                          i.fas.fa-calendar-alt.me-2
+                          = new Date(appointment.appointment_date).toLocaleString()
+                        p.mb-1
+                          i.fas.fa-user.me-2
+                          | Manicurist: #{appointment.manicurist_name}
+                        span.badge(class=`status-${appointment.status}`)= appointment.status
+                      .col-md-3.d-flex.flex-column.justify-content-center
+                        a.btn.btn-info(href=`/client/appointments/${appointment.id}`)
+                          i.fas.fa-eye.me-2
+                          | View Details
+            else
+              .text-center.py-4
+                i.fas.fa-history.fa-3x.mb-3.text-muted
+                p.lead You have no past appointments
+        
+        .tab-pane.fade#all(role="tabpanel")
+          if appointments && appointments.length > 0
+            ul.list-group.list-group-flush.bg-dark
+              each appointment in appointments
+                li.list-group-item.bg-dark.mb-3.appointment-item
+                  .row
+                    .col-md-9
+                      h5= appointment.service_name
+                      p.mb-1
+                        i.fas.fa-calendar-alt.me-2
+                        = new Date(appointment.appointment_date).toLocaleString()
+                      p.mb-1
+                        i.fas.fa-user.me-2
+                        | Manicurist: #{appointment.manicurist_name}
+                      span.badge(class=`status-${appointment.status}`)= appointment.status
+                    .col-md-3.d-flex.flex-column.justify-content-center
+                      a.btn.btn-info(href=`/client/appointments/${appointment.id}`)
+                        i.fas.fa-eye.me-2
+                        | View Details
+          else
+            .text-center.py-4
+              i.fas.fa-calendar-times.fa-3x.mb-3.text-muted
+              p.lead You have no appointments
+              a.btn.btn-primary.mt-2(href="/appointments/book") Book an Appointment
+      
+      .mt-4.text-center
+        a.btn.btn-primary(href="/client/dashboard")
+          i.fas.fa-arrow-left.me-2
+          | Back to Dashboard

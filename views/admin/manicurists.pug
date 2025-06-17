@@ -1,0 +1,98 @@
+extends ../layouts/main
+
+block content
+  h1.mb-4 Manage Manicurists
+  
+  if showAddForm
+    // Add Manicurist Form
+    .card.bg-dark.mb-4
+      .card-header
+        h3.mb-0 Add New Manicurist
+      .card-body
+        form(action="/admin/manicurists/add", method="POST")
+          .row
+            .col-md-6.mb-3
+              label.form-label(for="name") Full Name
+              input#name.form-control(type="text", name="name", required, value=manicuristData && manicuristData.name ? manicuristData.name : '')
+            
+            .col-md-6.mb-3
+              label.form-label(for="email") Email
+              input#email.form-control(type="email", name="email", required, value=manicuristData && manicuristData.email ? manicuristData.email : '')
+          
+          .row
+            .col-md-6.mb-3
+              label.form-label(for="phone") Phone Number
+              input#phone.form-control(type="tel", name="phone", value=manicuristData && manicuristData.phone ? manicuristData.phone : '')
+            
+            .col-md-6.mb-3
+              label.form-label(for="password") Password
+              input#password.form-control(type="password", name="password", required)
+              small.form-text.text-muted Password must be at least 6 characters
+          
+          .d-flex
+            button.btn.btn-primary.me-2(type="submit") Add Manicurist
+            a.btn.btn-secondary(href="/admin/manicurists") Cancel
+  
+  else if showEditForm && manicurist
+    // Edit Manicurist Form
+    .card.bg-dark.mb-4
+      .card-header
+        h3.mb-0 Edit Manicurist
+      .card-body
+        form(action=`/admin/manicurists/edit/${manicurist.id}`, method="POST")
+          .row
+            .col-md-6.mb-3
+              label.form-label(for="name") Full Name
+              input#name.form-control(type="text", name="name", required, value=manicurist.name)
+            
+            .col-md-6.mb-3
+              label.form-label(for="email") Email
+              input#email.form-control(type="email", name="email", required, value=manicurist.email)
+          
+          .row
+            .col-md-6.mb-3
+              label.form-label(for="phone") Phone Number
+              input#phone.form-control(type="tel", name="phone", value=manicurist.phone)
+            
+            .col-md-6.mb-3
+              label.form-label(for="password") New Password (Leave blank to keep current)
+              input#password.form-control(type="password", name="password")
+              small.form-text.text-muted Password must be at least 6 characters
+          
+          .d-flex
+            button.btn.btn-primary.me-2(type="submit") Update Manicurist
+            a.btn.btn-secondary(href="/admin/manicurists") Cancel
+  
+  else
+    // Manicurist List
+    .d-flex.justify-content-between.align-items-center.mb-4
+      h2.mb-0 Manicurist List
+      a.btn.btn-primary(href="/admin/manicurists/add")
+        i.fas.fa-plus.me-1
+        | Add New Manicurist
+    
+    .card.bg-dark
+      .card-body
+        if manicurists && manicurists.length > 0
+          .table-responsive
+            table.table.table-dark
+              thead
+                tr
+                  th Name
+                  th Email
+                  th Phone
+                  th Actions
+              tbody
+                each manicurist in manicurists
+                  tr
+                    td= manicurist.name
+                    td= manicurist.email
+                    td= manicurist.phone || 'N/A'
+                    td
+                      a.btn.btn-info.btn-sm.me-1(href=`/admin/manicurists/edit/${manicurist.id}`)
+                        i.fas.fa-edit
+                      a.btn.btn-danger.btn-sm.delete-btn(href=`/admin/manicurists/delete/${manicurist.id}`)
+                        i.fas.fa-trash
+        else
+          p.text-center.py-3 No manicurists found. 
+            a(href="/admin/manicurists/add") Add a manicurist

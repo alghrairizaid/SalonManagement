@@ -1,0 +1,106 @@
+extends ../layouts/main
+
+block content
+  h1.mb-4 Book an Appointment
+  
+  .card.bg-dark.mb-4
+    .card-header
+      h3.mb-0 Appointment Booking Form
+    .card-body
+      form#bookingForm(action="/appointments/book", method="POST")
+        // Service selection
+        .mb-3
+          label.form-label(for="service") Select Service
+          select#service.form-control(name="service_id", required)
+            option(value="") Choose a service...
+            each service in services
+              option(value=service.id, selected=selectedService && selectedService.id === service.id)= `${service.name} - $${service.price.toFixed(2)} (${service.duration} min)`
+          .invalid-feedback#serviceFeedback
+        
+        // Manicurist selection
+        .mb-3
+          label.form-label(for="manicurist") Select Manicurist
+          select#manicurist.form-control(name="manicurist_id", required)
+            option(value="") Choose a manicurist...
+            each manicurist in manicurists
+              option(value=manicurist.id, selected=formData && parseInt(formData.manicurist_id) === manicurist.id)= manicurist.name
+          .invalid-feedback#manicuristFeedback
+        
+        // Date selection
+        .mb-3#dateContainer(class=formData && formData.manicurist_id ? '' : 'd-none')
+          label.form-label(for="appointmentDate") Select Date
+          input#appointmentDate.form-control(type="date", name="appointmentDate", min=new Date().toISOString().split('T')[0], disabled=!formData || !formData.manicurist_id)
+        
+        // Time selection
+        .mb-3#timeContainer.d-none
+          label.form-label(for="appointmentTime") Select Time
+          select#appointmentTime.form-control(name="appointment_date", disabled)
+            option(value="") Please select a date first...
+          .invalid-feedback#timeFeedback
+        
+        // Additional notes
+        .mb-3
+          label.form-label(for="notes") Additional Notes (optional)
+          textarea#notes.form-control(name="notes", rows="3")= formData ? formData.notes : ''
+        
+        button.btn.btn-primary.btn-lg.w-100(type="submit") Book Appointment
+  
+  // Service information
+  if selectedService
+    .card.bg-dark.mt-4
+      .card-header
+        h3.mb-0 Selected Service Information
+      .card-body
+        .row
+          .col-md-8
+            h4= selectedService.name
+            p.mb-3= selectedService.description
+            p
+              strong Price: 
+              | $#{selectedService.price.toFixed(2)}
+            p
+              strong Duration: 
+              | #{selectedService.duration} minutes
+          .col-md-4.text-center
+            if selectedService.image
+              img.img-fluid.rounded(src=selectedService.image, alt=selectedService.name)
+            else
+              .p-5.bg-dark.rounded.d-flex.align-items-center.justify-content-center
+                i.fas.fa-spa.fa-3x.text-muted
+  
+  // Booking guide
+  .card.bg-dark.mt-4
+    .card-header
+      h3.mb-0 Booking Guide
+    .card-body
+      .row
+        .col-md-4.mb-3
+          .d-flex.align-items-center
+            .me-3
+              .bg-primary.rounded-circle.p-3.text-center(style="width: 50px; height: 50px;")
+                i.fas.fa-list
+            div
+              h5 Step 1
+              p Select a service and manicurist
+        
+        .col-md-4.mb-3
+          .d-flex.align-items-center
+            .me-3
+              .bg-primary.rounded-circle.p-3.text-center(style="width: 50px; height: 50px;")
+                i.fas.fa-calendar-alt
+            div
+              h5 Step 2
+              p Choose an available date and time
+        
+        .col-md-4.mb-3
+          .d-flex.align-items-center
+            .me-3
+              .bg-primary.rounded-circle.p-3.text-center(style="width: 50px; height: 50px;")
+                i.fas.fa-check
+            div
+              h5 Step 3
+              p Confirm and complete your booking
+      
+      .alert.alert-info.mb-0
+        i.fas.fa-info-circle.me-2
+        | Appointments can be cancelled up to 24 hours before the scheduled time.

@@ -1,0 +1,53 @@
+extends ../layouts/main
+
+block content
+  h1.mb-4 My Profile
+  
+  .row
+    .col-md-8
+      .card.bg-dark
+        .card-header
+          h3.mb-0 Update Profile
+        .card-body
+          form(action="/manicurist/profile", method="POST")
+            .row
+              .col-md-6.mb-3
+                label.form-label(for="name") Full Name
+                input#name.form-control(type="text", name="name", required, value=profile.name)
+              
+              .col-md-6.mb-3
+                label.form-label(for="email") Email
+                input#email.form-control(type="email", name="email", required, value=profile.email)
+            
+            .mb-3
+              label.form-label(for="phone") Phone Number
+              input#phone.form-control(type="tel", name="phone", value=profile.phone || '')
+            
+            .mb-3
+              label.form-label(for="password") New Password (leave blank to keep current)
+              input#password.form-control(type="password", name="password")
+              small.form-text.text-muted Password must be at least 6 characters
+            
+            .mb-3
+              label.form-label(for="password2") Confirm New Password
+              input#password2.form-control(type="password", name="password2")
+            
+            button.btn.btn-primary(type="submit") Update Profile
+    
+    .col-md-4
+      .card.bg-dark
+        .card-header
+          h3.mb-0 Account Info
+        .card-body
+          .d-flex.justify-content-center.mb-4
+            .avatar-placeholder.bg-primary.rounded-circle.d-flex.justify-content-center.align-items-center(style="width: 100px; height: 100px;")
+              i.fas.fa-user.fa-3x.text-light
+          
+          ul.list-group.list-group-flush.bg-dark
+            li.list-group-item.bg-dark
+              strong Role: 
+              span.badge.bg-info.ms-2 Manicurist
+            
+            li.list-group-item.bg-dark
+              strong Account Created: 
+              = new Date(profile.created_at).toLocaleDateString()

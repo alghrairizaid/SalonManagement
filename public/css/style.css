@@ -1,0 +1,159 @@
+/* Custom styles for Manicure Salon */
+
+:root {
+  --primary-pink: #ff69b4;
+  --light-purple: #e6e6fa;
+  --soft-pink: #ffb6c1;
+  --deep-pink: #ff1493;
+  --lavender: #e6e6fa;
+  --background-purple: #7f00ff;
+}
+
+/* Global styles */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-purple);
+  color: #333;
+}
+
+/* Main content wrapper */
+.content {
+  flex: 1;
+  background-color: var(--background-purple);
+}
+
+/* Footer */
+.footer {
+  margin-top: auto;
+  padding: 20px 0;
+  background: linear-gradient(to right, var(--primary-pink), var(--deep-pink)) !important;
+}
+
+/* Hero section on homepage */
+.hero {
+  padding: 60px 0;
+  background: linear-gradient(135deg, var(--primary-pink), var(--light-purple));
+  margin-bottom: 30px;
+  text-align: center;
+  color: white;
+}
+
+.hero h1 {
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Service cards */
+.service-card {
+  transition: transform 0.3s ease;
+  height: 100%;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--background-purple);
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.service-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Dashboard stats */
+.stat-card {
+  background: linear-gradient(135deg, var(--primary-pink), var(--soft-pink));
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: var(--background-purple);
+}
+
+.stat-card i {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.stat-number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+}
+
+/* Appointment list */
+.appointment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.appointment-item {
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+  background-color: var(--background-purple);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Status badges */
+.status-pending {
+  background-color: var(--soft-pink);
+  color: #333;
+}
+
+.status-confirmed {
+  background-color: var(--primary-pink);
+  color: white;
+}
+
+.status-completed {
+  background-color: var(--light-purple);
+  color: #333;
+}
+
+.status-cancelled {
+  background-color: var(--deep-pink);
+  color: white;
+}
+
+/* Navbar customization */
+.navbar {
+  background: linear-gradient(to right, var(--primary-pink), var(--deep-pink)) !important;
+}
+
+.navbar-brand, .nav-link {
+  color: white !important;
+}
+
+.nav-link:hover {
+  color: var(--light-purple) !important;
+}
+
+/* Buttons */
+.btn-primary {
+  background-color: var(--primary-pink);
+  border-color: var(--primary-pink);
+}
+
+.btn-primary:hover {
+  background-color: var(--deep-pink);
+  border-color: var(--deep-pink);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero {
+    padding: 30px 0;
+  }
+  
+  .hero h1 {
+    font-size: 2rem;
+  }
+}

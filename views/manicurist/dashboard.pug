@@ -1,0 +1,104 @@
+extends ../layouts/main
+
+block content
+  h1.mb-4 Manicurist Dashboard
+  p.lead Welcome back, #{user.name}!
+  
+  .row
+    .col-lg-8
+      // Today's Appointments
+      .card.bg-dark.mb-4
+        .card-header.d-flex.justify-content-between.align-items-center
+          h3.mb-0 Today's Appointments
+          a.btn.btn-primary.btn-sm(href="/manicurist/appointments") View All
+        .card-body
+          if todayAppointments && todayAppointments.length > 0
+            .table-responsive
+              table.table.table-dark
+                thead
+                  tr
+                    th Time
+                    th Client
+                    th Service
+                    th Duration
+                    th Status
+                    th Actions
+                tbody
+                  each appointment in todayAppointments
+                    tr
+                      td= new Date(appointment.appointment_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+                      td
+                        div= appointment.client_name
+                        small.text-muted= appointment.client_phone
+                      td= appointment.service_name
+                      td= appointment.service_duration + ' min'
+                      td
+                        span.badge(class=`status-${appointment.status}`)= appointment.status
+                      td
+                        a.btn.btn-info.btn-sm(href=`/manicurist/appointments/${appointment.id}`)
+                          i.fas.fa-eye
+          else
+            p.text-center.py-3 No appointments scheduled for today
+      
+      // Upcoming Appointments
+      .card.bg-dark.mb-4
+        .card-header
+          h3.mb-0 Upcoming Appointments
+        .card-body
+          if upcomingAppointments && upcomingAppointments.length > 0
+            ul.list-group.list-group-flush.bg-dark
+              each appointment in upcomingAppointments
+                li.list-group-item.d-flex.justify-content-between.align-items-center.bg-dark
+                  div
+                    h5.mb-1= appointment.client_name
+                    p.mb-1
+                      strong Service: 
+                      | #{appointment.service_name}
+                    small.text-muted= new Date(appointment.appointment_date).toLocaleString()
+                  a.btn.btn-outline-info.btn-sm(href=`/manicurist/appointments/${appointment.id}`)
+                    i.fas.fa-eye.me-1
+                    | View
+          else
+            p.text-center.py-3 No upcoming appointments
+    
+    .col-lg-4
+      // Quick Stats
+      .card.bg-dark.mb-4
+        .card-header
+          h3.mb-0 Quick Stats
+        .card-body
+          .stat-card.mb-3
+            i.fas.fa-calendar-check.text-primary
+            h4 Today
+            .stat-number= todayAppointments ? todayAppointments.length : 0
+            p Appointments
+          
+          .stat-card.mb-3
+            i.fas.fa-calendar-alt.text-success
+            h4 Upcoming
+            .stat-number= upcomingAppointments ? upcomingAppointments.length : 0
+            p Future Appointments
+      
+      // Quick Links
+      .card.bg-dark
+        .card-header
+          h3.mb-0 Quick Links
+        .card-body.p-0
+          .list-group.list-group-flush
+            a.list-group-item.list-group-item-action.d-flex.justify-content-between.align-items-center.bg-dark(href="/manicurist/appointments")
+              div
+                i.fas.fa-calendar.me-2.text-primary
+                | My Appointments
+              i.fas.fa-chevron-right
+            
+            a.list-group-item.list-group-item-action.d-flex.justify-content-between.align-items-center.bg-dark(href="/manicurist/profile")
+              div
+                i.fas.fa-user.me-2.text-info
+                | Update Profile
+              i.fas.fa-chevron-right
+            
+            a.list-group-item.list-group-item-action.d-flex.justify-content-between.align-items-center.bg-dark(href="/services")
+              div
+                i.fas.fa-spa.me-2.text-warning
+                | View Services
+              i.fas.fa-chevron-right

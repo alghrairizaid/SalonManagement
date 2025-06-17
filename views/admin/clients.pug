@@ -1,0 +1,22 @@
+extends ../layouts/main
+
+block content
+  h1 Manage Clients
+  table.table.table-dark
+    thead
+      tr
+        th Name
+        th Email
+        th Phone
+        th Actions
+    tbody
+      each client in clients
+        tr
+          td= client.name
+          td= client.email
+          td= client.phone
+          td
+            a.btn.btn-sm.btn-info(href=`/admin/clients/edit/${client.id}`)
+              i.fas.fa-edit
+            a.btn.btn-sm.btn-danger(href=`/admin/clients/delete/${client.id}` onclick="return confirm('Are you sure?')")
+              i.fas.fa-trash 

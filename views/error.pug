@@ -1,0 +1,14 @@
+extends layouts/main
+
+block content
+  .text-center.py-5
+    i.fas.fa-exclamation-triangle.fa-5x.text-warning.mb-4
+    h1.display-4= title
+    p.lead= message
+    if error && error.status
+      p
+        strong Status:
+        |  #{error.status}
+    if error && error.stack && process.env.NODE_ENV !== 'production'
+      pre.bg-dark.p-3.mt-4.text-start.overflow-auto.rounded= error.stack
+    a.btn.btn-primary.mt-4(href="/") Return to Home

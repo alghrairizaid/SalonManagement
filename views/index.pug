@@ -1,0 +1,119 @@
+extends layouts/main
+
+block content
+  // Hero Section
+  section.hero.text-center.bg-dark.text-light
+    .container
+      h1.display-4 Welcome to Manicure Salon
+      p.lead Professional nail care services with premium quality
+      if user && user.role === 'client'
+        a.btn.btn-primary.me-2(href="/appointments/book") Book an Appointment
+      else if !user
+        a.btn.btn-primary.me-2(href="/register") Register Now
+      a.btn.btn-outline-light(href="/services") View Services
+
+  // Features Section
+  section.py-5
+    .container
+      h2.text-center.mb-5 Why Choose Us
+      .row
+        .col-md-4.mb-4
+          .card.h-100.text-center.bg-dark
+            .card-body
+              i.fas.fa-star.fa-3x.mb-3.text-warning
+              h3.card-title Premium Quality
+              p.card-text We use only the highest quality products for our manicure services to ensure outstanding results.
+        
+        .col-md-4.mb-4
+          .card.h-100.text-center.bg-dark
+            .card-body
+              i.fas.fa-thumbs-up.fa-3x.mb-3.text-info
+              h3.card-title Expert Manicurists
+              p.card-text Our team consists of certified professionals with years of experience in nail care.
+        
+        .col-md-4.mb-4
+          .card.h-100.text-center.bg-dark
+            .card-body
+              i.fas.fa-gem.fa-3x.mb-3.text-primary
+              h3.card-title Unique Designs
+              p.card-text Choose from a wide variety of designs or create your own unique style with our creative team.
+  
+  // Popular Services Section
+  section.py-5.bg-dark
+    .container
+      h2.text-center.mb-5 Our Popular Services
+      .row
+        .col-md-4.mb-4
+          .card.service-card.h-100
+            .card-body.text-center
+              i.fas.fa-paint-brush.fa-3x.mb-3.text-danger
+              h3.card-title Classic Manicure
+              p.card-text A traditional manicure service that includes nail shaping, cuticle care, and polish.
+              p.card-text.text-primary $25
+              a.btn.btn-outline-primary(href="/services") Learn More
+        
+        .col-md-4.mb-4
+          .card.service-card.h-100
+            .card-body.text-center
+              i.fas.fa-magic.fa-3x.mb-3.text-success
+              h3.card-title Gel Manicure
+              p.card-text Long-lasting gel polish that stays perfect for up to two weeks without chipping.
+              p.card-text.text-primary $35
+              a.btn.btn-outline-primary(href="/services") Learn More
+        
+        .col-md-4.mb-4
+          .card.service-card.h-100
+            .card-body.text-center
+              i.fas.fa-spa.fa-3x.mb-3.text-warning
+              h3.card-title Luxury Spa Manicure
+              p.card-text A premium treatment including exfoliation, mask, massage, and premium polish.
+              p.card-text.text-primary $45
+              a.btn.btn-outline-primary(href="/services") Learn More
+  
+  // Testimonials Section
+  section.py-5
+    .container
+      h2.text-center.mb-5 What Our Clients Say
+      .row
+        .col-md-4.mb-4
+          .card.bg-dark.h-100
+            .card-body
+              p.card-text "The best manicure service I've ever experienced! Professional staff and amazing results."
+              .d-flex.align-items-center.mt-3
+                i.fas.fa-user-circle.fa-2x.me-3.text-primary
+                div
+                  h5.mb-0 Sarah Johnson
+                  small Regular Client
+        
+        .col-md-4.mb-4
+          .card.bg-dark.h-100
+            .card-body
+              p.card-text "I love how my nails look after every visit. The atmosphere is relaxing and the service is top-notch!"
+              .d-flex.align-items-center.mt-3
+                i.fas.fa-user-circle.fa-2x.me-3.text-primary
+                div
+                  h5.mb-0 Emma Davis
+                  small New Client
+        
+        .col-md-4.mb-4
+          .card.bg-dark.h-100
+            .card-body
+              p.card-text "The salon is always clean and the staff is friendly. My gel manicure lasts for weeks without any issues."
+              .d-flex.align-items-center.mt-3
+                i.fas.fa-user-circle.fa-2x.me-3.text-primary
+                div
+                  h5.mb-0 Michael Thompson
+                  small Loyal Customer
+  
+  // Call to Action
+  section.py-5.bg-primary.text-white.text-center
+    .container
+      h2.mb-4 Ready to Experience Our Services?
+      p.lead Book your appointment today and let our professionals take care of your nails.
+      if user && user.role === 'client'
+        a.btn.btn-light.btn-lg.mt-3(href="/appointments/book") Book Now
+      else if !user
+        a.btn.btn-light.btn-lg.me-3.mt-3(href="/register") Register
+        a.btn.btn-outline-light.btn-lg.mt-3(href="/login") Login
+      else
+        a.btn.btn-light.btn-lg.mt-3(href="/services") Explore Services

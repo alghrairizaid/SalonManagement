@@ -1,0 +1,15 @@
+extends ../layouts/main
+
+block content
+  h1 Edit Client
+  form(action=`/admin/clients/edit/${client.id}` method="POST")
+    .mb-3
+      label(for="name") Name
+      input#name.form-control(type="text", name="name", value=client.name, required)
+    .mb-3
+      label(for="email") Email
+      input#email.form-control(type="email", name="email", value=client.email, required)
+    .mb-3
+      label(for="phone") Phone
+      input#phone.form-control(type="text", name="phone", value=client.phone)
+    button.btn.btn-primary(type="submit") Save Changes 

@@ -1,0 +1,102 @@
+extends ../layouts/main
+
+block content
+  if service
+    .row
+      .col-md-8
+        h1.mb-4= service.name
+        
+        .card.bg-dark.mb-4
+          .card-body
+            .d-flex.justify-content-between.mb-3
+              .service-info
+                span.badge.bg-primary.p-2.me-2
+                  i.fas.fa-tag.me-1
+                  | $#{service.price.toFixed(2)}
+                span.badge.bg-secondary.p-2
+                  i.fas.fa-clock.me-1
+                  | #{service.duration} minutes
+            
+            if service.description
+              p.lead= service.description
+            else
+              p.lead.text-muted No detailed description available for this service.
+            
+            if user && user.role === 'client'
+              a.btn.btn-primary.mt-3(href=`/appointments/book?service=${service.id}`)
+                i.fas.fa-calendar-plus.me-2
+                | Book This Service
+        
+        // Service details
+        .card.bg-dark.mb-4
+          .card-header
+            h3.mb-0 Service Details
+          .card-body
+            .row
+              .col-md-6
+                h5 What's Included
+                ul.list-group.list-group-flush.bg-dark
+                  li.list-group-item.bg-dark
+                    i.fas.fa-check.text-success.me-2
+                    | Nail shaping and filing
+                  li.list-group-item.bg-dark
+                    i.fas.fa-check.text-success.me-2
+                    | Cuticle care
+                  li.list-group-item.bg-dark
+                    i.fas.fa-check.text-success.me-2
+                    | Application of polish/treatment
+                  li.list-group-item.bg-dark
+                    i.fas.fa-check.text-success.me-2
+                    | Hand moisturizing
+              
+              .col-md-6
+                h5 Additional Information
+                ul.list-group.list-group-flush.bg-dark
+                  li.list-group-item.bg-dark
+                    i.fas.fa-info-circle.text-info.me-2
+                    | Duration: #{service.duration} minutes
+                  li.list-group-item.bg-dark
+                    i.fas.fa-info-circle.text-info.me-2
+                    | Price: $#{service.price.toFixed(2)}
+                  li.list-group-item.bg-dark
+                    i.fas.fa-info-circle.text-info.me-2
+                    | Performed by certified manicurists
+      
+      .col-md-4
+        // Service image
+        .card.bg-dark.mb-4
+          if service.image
+            img.card-img-top(src=service.image, alt=service.name)
+          else
+            .card-img-top.text-center.py-5.bg-secondary
+              i.fas.fa-spa.fa-5x.text-light
+          
+          .card-body.text-center
+            if user && user.role === 'client'
+              a.btn.btn-primary.btn-lg.w-100(href=`/appointments/book?service=${service.id}`)
+                i.fas.fa-calendar-plus.me-2
+                | Book This Service
+            else if !user
+              a.btn.btn-primary.btn-lg.w-100(href="/login")
+                i.fas.fa-sign-in-alt.me-2
+                | Login to Book
+        
+        // Related services
+        .card.bg-dark
+          .card-header
+            h3.mb-0 You Might Also Like
+          .card-body.p-0
+            .list-group.list-group-flush
+              a.list-group-item.list-group-item-action.bg-dark(href="/services") Classic Manicure
+              a.list-group-item.list-group-item-action.bg-dark(href="/services") Gel Manicure
+              a.list-group-item.list-group-item-action.bg-dark(href="/services") Nail Art Designs
+              a.list-group-item.list-group-item-action.bg-dark(href="/services") View All Services
+    
+    .mt-4
+      a.btn.btn-secondary(href="/services")
+        i.fas.fa-arrow-left.me-2
+        | Back to Services
+  else
+    .alert.alert-danger
+      p Service not found. The service may have been deleted.
+    a.btn.btn-primary(href="/services") View All Services
