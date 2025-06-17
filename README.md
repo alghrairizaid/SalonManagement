@@ -8,7 +8,6 @@
 - إدارة المواعيد وحجزها
 - إدارة الخدمات والأسعار
 - لوحة تحكم خاصة لكل نوع من المستخدمين
-- نظام إشعارات متكامل
 - واجهة مستخدم سهلة الاستخدام
 
 ## المتطلبات التقنية
@@ -38,15 +37,93 @@ npm start
 
 ## هيكل المشروع
 ```
-FreelanceShield/
-├── config/         # ملفات الإعداد
-├── controllers/    # المتحكمات
-├── models/         # نماذج البيانات
-├── routes/         # مسارات التطبيق
-├── views/          # قوالب العرض
-├── public/         # الملفات العامة
-├── middleware/     # البرمجيات الوسيطة
-└── data/          # قاعدة البيانات
+SalonManagement/
+│
+├── .git/                      # Git repository
+├── attached_assets/           # Additional assets
+├── config/                    # Configuration files
+│   ├── database.js            # Database configuration
+│   └── auth.js                # Authentication configuration
+│
+├── controllers/               # Controller files
+│   ├── authController.js      # Authentication logic
+│   ├── adminController.js     # Admin functionality
+│   ├── manicuristController.js # Manicurist functionality
+│   ├── clientController.js    # Client functionality
+│   ├── serviceController.js   # Service management
+│   └── appointmentController.js # Appointment handling
+│
+├── data/                      # Data storage
+│
+├── middleware/                # Middleware functions
+│   ├── authMiddleware.js      # Authentication middleware
+│   └── errorMiddleware.js     # Error handling middleware
+│
+├── models/                    # Data models
+│   ├── User.js                # User model
+│   ├── Service.js             # Service model
+│   └── Appointment.js         # Appointment model
+│
+├── public/                    # Static files
+│   ├── css/                   # CSS files
+│   ├── js/                    # JavaScript files
+│   └── images/                # Image files
+│
+├── routes/                    # Route definitions
+│   ├── authRoutes.js          # Authentication routes
+│   ├── adminRoutes.js         # Admin routes
+│   ├── manicuristRoutes.js    # Manicurist routes
+│   ├── clientRoutes.js        # Client routes
+│   ├── serviceRoutes.js       # Service routes
+│   └── appointmentRoutes.js   # Appointment routes
+│
+├── views/
+│
+├── admin/                     # Admin views
+│   ├── dashboard.pug          # Admin dashboard
+│   ├── clients.pug            # Client management
+│   ├── editClient.pug         # Edit client details
+│   ├── services.pug           # Service management
+│   └── manicurists.pug        # Manicurist management
+│
+├── services/                  # Service views
+│   ├── catalog.pug            # Service catalog
+│   └── details.pug            # Service details
+│
+├── manicurist/                # Manicurist views
+│   ├── dashboard.pug          # Manicurist dashboard
+│   ├── appointments.pug       # Manicurist appointments
+│   └── profile.pug            # Manicurist profile
+│
+├── layouts/                   # Layout templates
+│   └── main.pug               # Main layout
+│
+├── client/                    # Client views
+│   ├── dashboard.pug          # Client dashboard
+│   ├── history.pug            # Client history
+│   └── profile.pug            # Client profile
+│
+├── auth/                      # Authentication views
+│   ├── login.pug              # Login page
+│   └── register.pug           # Registration page
+│
+├── appointments/              # Appointment views
+│   ├── book.pug               # Book appointment
+│   ├── list.pug               # List appointments
+│   └── details.pug            # Appointment details
+│
+├── index.pug                  # Home page
+└── error.pug                  # Error page
+ 
+files
+│
+├── app.js                     # Main application file
+├── app-launcher.js            # Application launcher
+├── package.json               # Project dependencies
+├── package-lock.json          # Locked dependencies
+├── pyproject.toml             # Python project configuration
+├── README.md                  # Project documentation
+└── README.ru.md               # Russian documentation
 ```
 
 ## المسارات الرئيسية
@@ -83,5 +160,3 @@ FreelanceShield/
 3. قم بإجراء التغييرات
 4. قم بإنشاء pull request
 
-## الترخيص
-هذا المشروع مرخص تحت رخصة ISC. 
