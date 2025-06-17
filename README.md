@@ -39,7 +39,6 @@ npm start
 ```
 SalonManagement/
 │
-├── .git/                      # Git repository
 ├── attached_assets/           # Additional assets
 ├── config/                    # Configuration files
 │   ├── database.js            # Database configuration
